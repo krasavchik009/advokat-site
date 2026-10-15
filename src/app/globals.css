@@ -1,0 +1,228 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-ink: #070b16;
+  --color-night: #0b1222;
+  --color-surface: #111a2f;
+  --color-raised: #17223b;
+  --color-line: #26324d;
+  --color-ivory: #f1ece2;
+  --color-mist: #aeb5c6;
+  --color-gold: #c9a35c;
+  --color-gold-soft: #e2c88f;
+  --color-gold-deep: #9c7a3c;
+  --color-danger: #f08a7e;
+  --color-ok: #8fd1a6;
+
+  --font-serif: var(--font-garamond), "Georgia", serif;
+  --font-sans: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-night);
+    color: var(--color-ivory);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  button,
+  a,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+  button:not(:disabled),
+  [role="button"] {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-x {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease,
+      transform 200ms ease;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-gold {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  .btn-gold:hover {
+    background: var(--color-gold-soft);
+  }
+  .btn-outline {
+    border: 1px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
+    color: var(--color-ivory);
+  }
+  .btn-outline:hover {
+    border-color: var(--color-gold);
+    background: color-mix(in srgb, var(--color-gold) 10%, transparent);
+  }
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  .field {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-ink);
+    border: 1px solid var(--color-line);
+    border-radius: 2px;
+    color: var(--color-ivory);
+    font-size: 1rem;
+    transition: border-color 200ms ease;
+  }
+  .field::placeholder {
+    color: color-mix(in srgb, var(--color-mist) 60%, transparent);
+  }
+  .field:hover {
+    border-color: color-mix(in srgb, var(--color-gold) 40%, var(--color-line));
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold) 25%, transparent);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23c9a35c' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    opacity: 0.5;
+  }
+
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+}
+
+/* Текст постов. Вне слоёв, чтобы перебить переменные плагина typography. */
+.post-body {
+    --tw-prose-body: color-mix(in srgb, var(--color-ivory) 88%, transparent);
+    --tw-prose-headings: var(--color-ivory);
+    --tw-prose-links: var(--color-gold-soft);
+    --tw-prose-bold: var(--color-ivory);
+    --tw-prose-bullets: var(--color-gold);
+    --tw-prose-counters: var(--color-gold);
+    --tw-prose-quotes: var(--color-ivory);
+    --tw-prose-quote-borders: var(--color-gold);
+    --tw-prose-hr: var(--color-line);
+    --tw-prose-code: var(--color-gold-soft);
+  }
+  .post-body h2,
+  .post-body h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+  }
+  .post-body img {
+    border-radius: 2px;
+  }
+
+.reveal {
+  animation: reveal 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

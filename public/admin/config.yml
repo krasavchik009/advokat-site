@@ -1,0 +1,59 @@
+# Настройки админки постов (Sveltia CMS).
+# Посты сохраняются в репозиторий GitHub, после чего сайт пересобирается сам за 1–2 минуты.
+backend:
+  name: github
+  # логин-на-GitHub/название-репозитория
+  repo: krasavchik009/advokat-site
+  branch: main
+  commit_messages:
+    create: "Новый пост: {{slug}}"
+    update: "Изменён пост: {{slug}}"
+    delete: "Удалён пост: {{slug}}"
+    uploadMedia: "Загружено фото: {{path}}"
+    deleteMedia: "Удалено фото: {{path}}"
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: Публикации
+    label_singular: публикацию
+    folder: content/posts
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    identifier_field: title
+    slug: "{{fields.url}}"
+    summary: "{{title}} — {{date | date('DD.MM.YYYY')}}{{draft | ternary(' (черновик)', '')}}"
+    sortable_fields: [date, title]
+    fields:
+      - label: Заголовок
+        name: title
+        widget: string
+      - label: Адрес страницы
+        name: url
+        widget: string
+        hint: "Латинскими буквами через дефис, например razdel-imushchestva-pri-razvode. Потом не меняйте."
+        pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Только маленькие латинские буквы, цифры и дефис"]
+      - label: Дата публикации
+        name: date
+        widget: datetime
+      - label: Краткое описание (для поиска и превью)
+        name: description
+        widget: text
+        required: false
+        hint: "1–2 предложения. Можно оставить пустым, тогда возьмётся начало текста."
+      - label: Обложка
+        name: cover
+        widget: image
+        required: false
+      - label: Черновик (не показывать на сайте)
+        name: draft
+        widget: boolean
+        default: false
+        required: false
+      - label: Текст
+        name: body
+        widget: markdown
